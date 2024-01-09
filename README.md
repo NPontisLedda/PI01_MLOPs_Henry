@@ -113,7 +113,7 @@ Ingresando el id de producto(item_id), deberíamos recibir una lista con 5 juego
 # _**Implementación de API**_
 La implementación de nuestra FastAPI se realiza utilizando Render un entorno virtual.
 
-Haga clic para acceder a mi aplicación FastAPI: [API Deployment](https://prueba6-kk8p.onrender.com/docs#/)
+Haga clic para acceder a mi aplicación FastAPI: [API Deployment](https://proyecto1-gkkk.onrender.com/docs#/)
 
 Para consumir la API, utilice los 6 endpoints diferentes para obtener información y realizar consultas sobre estadísticas de juegos.
 
