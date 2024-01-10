@@ -39,7 +39,7 @@ _**Eliminar columnas no utilizadas**_:
 
 _**Control de valores nulos**_:
 
-3. There are null values in:
+3. Se eliminan valores nulos:
    - De output_steam_games: genres, release_date.
    - De australian_user_reviews: item_id.
    - De australian_user_items: user_id
