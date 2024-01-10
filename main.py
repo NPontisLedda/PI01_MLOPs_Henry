@@ -12,7 +12,9 @@ import pickle
 # ----------------
 
 app = FastAPI()
+# Se deben crear las siguientes funciones para los puntos finales que se consumirán en la API. Recuerda que cada uno debe tener un decorador (@app.get('/')).
 # ----------------
+#Dataframes y ETL para las funciones
 df_f1_2= pd.read_csv('df_f1_2.csv')
 df_f3_4_5= pd.read_csv('df_f3_4_5.csv')
 # ----------------
@@ -40,6 +42,9 @@ df_f3_4_5['posted_year'] = df_f3_4_5['posted_year'].astype('int')
 
 df_f3_4_5.drop(columns='posted', inplace=True)
 # --------------------
+
+#Se entrena el modelo de machine learning
+
 # Crear una instancia del codificador
 label_encoder = LabelEncoder()
 
@@ -69,12 +74,16 @@ with open('titles_by_item_id.pkl', 'wb') as f:
     pickle.dump(titles_by_item_id, f)
 #---------------------------------------
 
-#http://127.0.0.1:8000/ 
+#http://127.0.0.1:8000/ #->ruta para API local
 
 @app.get("/")
 def presentacion():
   return 'Hola, soy Nicolás Pontis Ledda, formo parte de la cohorte DATAFT18 de Henry y este es el apartado de presentación de mi PI01 - MLOPs'
 #-------------------------------------------
+#Endpoint número 1
+#PlayTimeGenre( genero: str ) : Debe devolver añocon más horas jugadas para dicho género.
+#Ejemplo de retorno: {"Año de lanzamiento con más horas jugadas para Género X" : 2013}
+
 @app.get('/playtime_genre')
 def PlayTimeGenre(genero):
     genero = genero.lower()
@@ -106,6 +115,11 @@ def PlayTimeGenre(genero):
             
     return res
 #--------------------------------------------
+#Endpoint número 2
+#UserForGenre( genero: str ) : Debe devolver el usuario que acumula más horas jugadas para el género dado y una lista de la acumulación de horas jugadas por año.
+#Ejemplo de retorno: {"Usuario con más horas jugadas para Género X" : us213ndjss09sdf, 
+#"Horas jugadas":[{Año: 2013, Horas: 203}, {Año: 2012, Horas: 100}, {Año: 2011, Horas : 23}]}
+
 @app.get('/user_for_genre')
 def UserForGenre(genero):
 
@@ -135,6 +149,10 @@ def UserForGenre(genero):
         "Horas jugadas": lista_acumulado_por_ano
     }
 #-----------------------------------------------
+#Endpoint número 3
+# UsersRecommend( año: int ) : Devuelve el top 3 de juegos MÁS recomendados por usuarios para el año dado. (reviews.recommend = True y comentarios positivos/neutrales)
+#Ejemplo de retorno: [{"Puesto 1" : X}, {"Puesto 2" : Y},{"Puesto 3" : Z}]
+
 @app.get('/users_recommend')
 def UsersRecommend(year: int):
     # Verificar si el año es igual a -1 y mostrar un mensaje personalizado
@@ -172,6 +190,10 @@ def UsersRecommend(year: int):
 
     return top_tres
 #--------------------------------------------
+#Endpoint número 4
+#UsersWorstDeveloper( año: int ) : Devuelve el top 3 de desarrolladores con juegos MENOS recomendados por usuarios para el año dado. (reviews.recommend = False y comentarios negativos)
+#Ejemplo de retorno: [{"Puesto 1" : X}, {"Puesto 2" : Y},{"Puesto 3" : Z}]
+
 @app.get('/users_worst_developer')
 def UsersWorstDeveloper(año: int):
     # Verificar si el año es igual a -1 y mostrar un mensaje personalizado
@@ -209,6 +231,10 @@ def UsersWorstDeveloper(año: int):
 
     return ultimos_tres
 #-----------------------------------------
+#Endpoint número 5
+#sentiment_analysis( empresa desarrolladora: str ) : Según la empresa desarrolladora, se devuelve un diccionario con el nombre de la desarrolladora como llave y una lista con la cantidad total de registros de reseñas de usuarios que se encuentran categorizados con un análisis de sentimiento como valor.
+#Ejemplo de retorno: {'Valve' : [Negativo = 182, Neutro = 120, Positivo = 278]}
+
 @app.get('/sentiment_analysis')
 def sentiment_analysis(devs:str):
 
@@ -233,7 +259,9 @@ def sentiment_analysis(devs:str):
 
     return result
 #-----------------------------------------
-#Función 6, recomendación de juegos segun item_id indicado
+#Endpoint número 6
+#recomendacion_juego( id de producto) : Ingresando el id de producto, deberíamos recibir una lista con 5 juegos recomendados similares al ingresado.
+
 @app.get('/get_recomendations')
 def get_recommendations(item_id: int):
 
