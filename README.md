@@ -1,6 +1,6 @@
 
 # Proyecto individual 1 - Henry
-# Data Science & Machine Learning Operations (MLOps)
+# Machine Learning Operations (MLOps)
 
 ![MLOps](https://user-images.githubusercontent.com/67664604/217914153-1eb00e25-ac08-4dfa-aaf8-53c09038f082.png)
 
